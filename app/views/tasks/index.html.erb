@@ -2,6 +2,9 @@
 <!--<p>Find me in app/views/tasks/index.html.erb</p>-->
 
 <h2>スケジュール一覧</h2>
+<% if flash.notice %>
+    <p class="notice"><%= flash.notice %></p>
+<% end %>
 
 <table> 
     <thead>
@@ -13,6 +16,9 @@
             <th>終日</th>
             <th>スケジュール更新日時</th>
             <th>作成日</th>
+            <th>確認</th>
+            <th>編集</th>
+             <th>削除</th>
         </tr>
     </thead>
     <tbody>
@@ -20,11 +26,20 @@
             <tr>
                 <td><%= task.id %></td>
                 <td><%= task.title %></td>
-                <td><%= task.start_time %></td>
-                <td><%= task.end_time %></td>
+                <td><%= task.start_time.strftime('%Y月%m日%d日') %></td>
+                <td><%= task.end_time.strftime('%Y月%m日%d日') %></td> 
                 <td><%= task.all_day %></td>
-                <td><%= task.updated_at %></td>
-                <td><%= task.created_at %></td>
+                <td><%= task.updated_at.to_s(:datetime_jp) %></td>
+                <td><%= task.created_at.to_s(:datetime_jp) %></td>
+                <td>
+                <%= link_to "確認", task %>
+                </td>
+                <td>
+                 <%= link_to "編集", edit_task_path(task) %>
+                </td>
+                <td>
+                <%= link_to "削除", task, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+                </td>
             </tr>
         <% end %>
     </tbody>
